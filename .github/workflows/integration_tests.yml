@@ -14,5 +14,5 @@ jobs:
             java-version: '11'
             java-package: jdk
             architecture: x64
-        - name: Build with Maven
-          run: mvn clean failsafe:verify
+        - name: Run integration tests
+          run:  mvn clean verify -Dmaven.javadoc.skip=true -Dgpg.skip -Dskip.unit.tests=true
