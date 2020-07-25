@@ -1,0 +1,12 @@
+name: complete workflow
+
+on: [push, pull_request]
+
+jobs:
+  build-docker:
+    runs-on: ubuntu-latest
+    name: build-docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: test docker compose
+        run: printenv
