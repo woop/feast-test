@@ -4,14 +4,17 @@ on: [push, pull_request]
 
 jobs:
   build-docker:
-    runs-on: [self-hosted, builder]
     name: build-docker
+    runs-on: [self-hosted, builder]
+    strategy:
+      matrix:
+        component: [core, serving, jupyter]
     steps:
       - uses: actions/checkout@v2
       - name: build feast core image
-        run: make build-core-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
+        run: make build-${{ matrix.component }}-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
       - name: push feast core image
-        run: make push-core-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
+        run: make push-${{ matrix.component }}-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
 
   lint-java:
     container: gcr.io/kf-feast/feast-ci:latest
