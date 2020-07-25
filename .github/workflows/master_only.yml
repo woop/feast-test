@@ -3,6 +3,8 @@ name: master only
 on:
   push:
     branches: master
+    tags:
+      - 'v*.*.*'
 
 jobs:
 
