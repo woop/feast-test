@@ -8,7 +8,7 @@ jobs:
     runs-on: [self-hosted, builder]
     strategy:
       matrix:
-        component: [core, serving, jupyter]
+        component: [core, serving, jupyter, ci]
     steps:
       - uses: actions/checkout@v2
       - name: build feast core image
