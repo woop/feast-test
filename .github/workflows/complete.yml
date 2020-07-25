@@ -8,8 +8,10 @@ jobs:
     name: build-docker
     steps:
       - uses: actions/checkout@v2
-      - name: build feast core
+      - name: build feast core image
         run: make build-core-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
+      - name: push feast core image
+        run: make push-core-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
 
   lint-java:
     container: gcr.io/kf-feast/feast-ci:latest
@@ -89,3 +91,17 @@ jobs:
         run: make compile-protos-go
       - name: test go
         run: make test-go
+
+  integration-test:
+    runs-on: ubuntu-latest
+    name: integration-test-java
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+          java-package: jdk
+          architecture: x64
+      - name: Run integration tests
+        run:  make test-java-integration
