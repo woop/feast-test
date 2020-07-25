@@ -142,7 +142,7 @@ build-ci-docker:
 	docker build -t $(REGISTRY)/feast-ci:latest -f infra/docker/ci/Dockerfile .
 
 build-jupyter-docker:
-	docker build -t $(REGISTRY)/feast-ci:$(VERSION) -f infra/docker/jupyter/Dockerfile .
+	docker build -t $(REGISTRY)/feast-jupyter:$(VERSION) -f infra/docker/jupyter/Dockerfile .
 
 # Documentation
 

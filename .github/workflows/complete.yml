@@ -3,17 +3,16 @@ name: complete workflow
 on: [push, pull_request]
 
 jobs:
-  build-docker:
-    name: build-docker
+  build-docker-images:
     runs-on: [self-hosted, builder]
     strategy:
       matrix:
         component: [core, serving, jupyter, ci]
     steps:
       - uses: actions/checkout@v2
-      - name: build feast core image
+      - name: build image
         run: make build-${{ matrix.component }}-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
-      - name: push feast core image
+      - name: push image
         run: make push-${{ matrix.component }}-docker REGISTRY=gcr.io/kf-feast VERSION=${GITHUB_SHA}
 
   lint-java:
@@ -57,7 +56,6 @@ jobs:
   unit-test-java:
     runs-on: ubuntu-latest
     container: gcr.io/kf-feast/feast-ci:latest
-    name: unit test java
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v1
@@ -76,7 +74,6 @@ jobs:
   unit-test-python:
     runs-on: ubuntu-latest
     container: gcr.io/kf-feast/feast-ci:latest
-    name: unit test python
     steps:
       - uses: actions/checkout@v2
       - name: install python
@@ -87,7 +84,6 @@ jobs:
   unit-test-go:
     runs-on: ubuntu-latest
     container: gcr.io/kf-feast/feast-ci:latest
-    name: unit test go
     steps:
       - uses: actions/checkout@v2
       - name: install dependencies
@@ -97,7 +93,6 @@ jobs:
 
   integration-test:
     runs-on: ubuntu-latest
-    name: integration-test-java
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
