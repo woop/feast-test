@@ -7,7 +7,7 @@ jobs:
     runs-on: [self-hosted, builder]
     strategy:
       matrix:
-        component: [core, serving, jupyter, ci]
+        component: [core, serving]
     steps:
       - uses: actions/checkout@v2
       - name: build image
