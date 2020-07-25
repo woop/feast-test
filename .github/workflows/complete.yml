@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build-docker:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, builder]
     name: build-docker
     steps:
       - uses: actions/checkout@v2
