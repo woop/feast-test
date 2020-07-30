@@ -3,8 +3,8 @@ name: complete workflow
 on: [push, pull_request]
 
 jobs:
-  runs-on: ubuntu-latest
   build-push-docker-images:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         component: [core, serving]
