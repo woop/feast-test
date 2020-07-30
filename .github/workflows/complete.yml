@@ -8,4 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: whatever
-        run: echo ${{ github.event.pull_request.head.sha }}
+        env:
+          GITHUB_PR_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          echo
+          if [ -n "${GITHUB_PR_SHA}" ]; then
+            echo $GITHUB_PR_SHA
+          fi
