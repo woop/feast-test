@@ -25,6 +25,4 @@ WORKDIR $HOME
 
 COPY examples .
 
-RUN apt-get update && apt-get install -y curl
-
 CMD ["start-notebook.sh", "--NotebookApp.token=''"]
