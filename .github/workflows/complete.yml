@@ -137,3 +137,25 @@ jobs:
         with:
           name: load-test-results
           path: load-test-output/
+
+  notebook-tests:
+    needs: build-push-docker-images
+    runs-on: [self-hosted]
+    strategy:
+      matrix:
+        component: [basic, telecom, statistics]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          export_default_credentials: true
+      - name: Run notebook test
+        run: |
+          FEAST_VERSION=${GITHUB_SHA} \
+          NOTEBOOK=${{ matrix.component }} \
+          TEST_RUN_ID=action-${GITHUB_WORKFLOW}_${GITHUB_RUN_ID}_${GITHUB_RUN_NUMBER} \
+          ./infra/scripts/test-jupyter-notebooks.sh
