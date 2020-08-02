@@ -15,6 +15,6 @@ pandavro==1.5.*
 moto
 mypy
 mypy-protobuf
-papermill
 papermill[gcs]
 ipykernel
+jupyter-client>=6.1.2

@@ -42,7 +42,13 @@ wait_for_docker_image gcr.io/kf-feast/feast-jupyter:"${FEAST_VERSION}"
 # Clean up on exit
 trap clean_up EXIT
 
-# Create dataset
+gcloud auth list
+gcloud config list
+
+# Delete BigQuery dataset if it exists
+bq rm -r --project_id ${GCLOUD_PROJECT} --force "${BIGQUERY_DATASET_NAME}"  || true
+
+# Create BigQuery dataset from scratch
 bq --location=US --project_id=${GCLOUD_PROJECT} mk \
   --dataset \
   --default_table_expiration 86400 \

@@ -4,9 +4,9 @@ set -e
 
 declare -A NOTEBOOK_PATH_LOOKUP
 NOTEBOOK_PATH_LOOKUP=(
-  ["basic"]="examples/basic/basic.ipynb"
-  ["telecom"]="examples/feast-xgboost-churn-prediction-tutorial/Telecom Customer Churn Prediction (with Feast and XGBoost).ipynb"
-  ["statistics"]="examples/statistics/Historical Feature Statistics with Feast, TFDV and Facets.ipynb"
+  ["basic"]="basic/basic.ipynb"
+  ["telecom"]="feast-xgboost-churn-prediction-tutorial/Telecom Customer Churn Prediction (with Feast and XGBoost).ipynb"
+  ["statistics"]="statistics/Historical Feature Statistics with Feast, TFDV and Facets.ipynb"
 )
 
 if [ -z "$NOTEBOOK" ]; then
@@ -14,8 +14,7 @@ if [ -z "$NOTEBOOK" ]; then
   exit 1
 else
   NOTEBOOK_PATH="${NOTEBOOK_PATH_LOOKUP[$NOTEBOOK]}"
-  ls $NOTEBOOK_PATH
-  echo "Found notebook $NOTEBOOK at $NOTEBOOK_PATH"
+  echo "Selected notebook $NOTEBOOK at $NOTEBOOK_PATH"
 fi
 test -z "${NOTEBOOK_ARTIFACT_BUCKET_NAME}" && NOTEBOOK_ARTIFACT_BUCKET_NAME="feast-test-notebook-artifacts"
 test -z "${TEST_RUN_ID}" && export TEST_RUN_ID=notebook_run_$(date +%s)
@@ -62,7 +61,7 @@ export FEAST_HISTORICAL_SERVING_CONTAINER_IP_ADDRESS=$(docker inspect -f '{{rang
 ${PROJECT_ROOT_DIR}/infra/scripts/wait-for-it.sh ${FEAST_HISTORICAL_SERVING_CONTAINER_IP_ADDRESS}:6567 --timeout=120
 
 # Start run
-papermill -k python3 "${NOTEBOOK_PATH}" gs://${NOTEBOOK_ARTIFACT_BUCKET_NAME}/${TEST_RUN_ID}/$NOTEBOOK.ipynb
+docker exec --user root feast_jupyter_1 bash -c "papermill -k python3 /home/jovyan/${NOTEBOOK_PATH} gs://${NOTEBOOK_ARTIFACT_BUCKET_NAME}/${TEST_RUN_ID}/$NOTEBOOK.ipynb"
 
 export NOTEBOOK_URL="https://nbviewer.jupyter.org/url/storage.googleapis.com/${NOTEBOOK_ARTIFACT_BUCKET_NAME}/${TEST_RUN_ID}/$NOTEBOOK.ipynb?flush_cache=true"
 
