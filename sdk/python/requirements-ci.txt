@@ -17,4 +17,4 @@ mypy
 mypy-protobuf
 papermill[gcs]
 ipykernel
-jupyter-client>=6.1.2
+jupyter-client>=6.1.5
