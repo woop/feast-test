@@ -2,6 +2,8 @@
 
 set -e
 
+if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ] ; then echo "GOOGLE_APPLICATION_CREDENTIALS must be set"; exit 1;  fi
+
 declare -A NOTEBOOK_PATH_LOOKUP
 NOTEBOOK_PATH_LOOKUP=(
   ["basic"]="basic/basic.ipynb"
