@@ -83,7 +83,8 @@ feast:
     redis_port: 6379
 
 grpc:
-  port: 6567
+  server:
+    port: 6567
 EOF
 
 
