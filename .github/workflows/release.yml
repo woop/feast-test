@@ -1,12 +1,7 @@
 name: release
 
-on:
-  push:
-    tags:
-      - 'v*.*.*'
-    branches:
-      # Push events on master branch
-      - master
+on: push
+
 jobs:
   get-version:
     runs-on:  ubuntu-latest
