@@ -37,7 +37,9 @@ jobs:
       - run: gcloud auth configure-docker --quiet
       - name: Validate chart versions
         run: make lint-versions
+      - name: Remove previous Helm
+        run: sudo rm -rf (which helm)
+      - name: Install Helm
+        run: ./infra/scripts/install-helm.sh
       - name: Publish Helm charts
-        run: |
-          ./infra/scripts/install-helm.sh
-          ./infra/scripts/sync-helm-charts.sh
+        run: ./infra/scripts/sync-helm-charts.sh
