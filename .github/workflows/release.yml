@@ -33,7 +33,7 @@ jobs:
       - name: Validate chart versions
         run: make lint-versions
       - name: Remove previous Helm
-        run: sudo rm -rf (which helm)
+        run: sudo rm -rf $(which helm)
       - name: Install Helm
         run: ./infra/scripts/install-helm.sh
       - name: Publish Helm charts
