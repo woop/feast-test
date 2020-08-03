@@ -4,10 +4,16 @@ on: [push]
 
 jobs:
   notebook-tests:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        component: [basic]
+        notebook: [basic, churn_prediction, statistics]
+    env:
+      TEMP_BUCKET: feast-test-notebook-artifacts
+      FEAST_VERSION: ${GITHUB_SHA}
+      TEST_RUN_ID: action_${GITHUB_SHA}_${{ matrix.component }}
+      ALLOW_DELETE_BQ_DATASET: true
+      NOTEBOOK: ${{ matrix.notebook }}
     steps:
       - uses: actions/checkout@v2
       - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -16,9 +22,13 @@ jobs:
           export_default_credentials: true
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
-      - name: Run notebook test
+      - name: Set up Feast with Docker Compose
+        run: ./infra/scripts/set-up-docker-compose-infra.sh
+      - name: Wait for Docker Compose to come online
         run: |
-          FEAST_VERSION=${GITHUB_SHA} \
-          NOTEBOOK=${{ matrix.component }} \
-          TEST_RUN_ID=action_${GITHUB_SHA}_${{ matrix.component }} \
-          ./infra/scripts/test-jupyter-notebooks.sh
+          source infra/scripts/setup-common-functions.sh
+          wait_for_docker_compose_running
+      - name: Test notebook
+        run: pytest -s --verbose --color=yes tests/e2e/notebook/${{ matrix.notebook }}.py
+      - name: Tear down Docker Compose
+        run: ./infra/scripts/tear-down-docker-compose-infra.sh

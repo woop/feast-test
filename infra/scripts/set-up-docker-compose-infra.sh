@@ -5,30 +5,11 @@ set -e
 if [ -z "$GOOGLE_APPLICATION_CREDENTIALS" ] ; then echo "GOOGLE_APPLICATION_CREDENTIALS must be set"; exit 1;  fi
 if [ -z "$FEAST_VERSION" ] ; then echo "FEAST_VERSION must be set"; exit 1; fi
 if [ -z "$TEMP_BUCKET" ] ; then echo "TEMP_BUCKET must be set"; exit 1; fi
+if [ -z "$TEST_RUN_ID" ] ; then echo "TEST_RUN_ID must be set"; exit 1; fi
+if [ -z "$ALLOW_DELETE_BQ_DATASET" ] ; then echo "ALLOW_DELETE_BQ_DATASET must be set"; exit 1; fi
 
-test -z "${TEST_RUN_ID}" && TEST_RUN_ID=docker_compose_$(date +%s)
 test -z ${BIGQUERY_DATASET_NAME} && BIGQUERY_DATASET_NAME=$TEST_RUN_ID
 test -z ${GCLOUD_PROJECT} && GCLOUD_PROJECT="kf-feast"
-test -z ${GCLOUD_REGION} && GCLOUD_REGION="us-central1"
-test -z ${GCLOUD_NETWORK} && GCLOUD_NETWORK="default"
-test -z ${GCLOUD_SUBNET} && GCLOUD_SUBNET="default"
-
-clean_up () {
-    ARG=$?
-
-    echo "running cleanup"
-
-    # Shut down containers
-    cd "${PROJECT_ROOT_DIR}"/infra/docker-compose/
-    docker-compose down || true
-
-    # Delete BigQuery dataset only when execution is successful
-    if [ "$?" -eq 0 ]; then
-      bq rm -r --project_id ${GCLOUD_PROJECT} --force "${BIGQUERY_DATASET_NAME}"  || true
-    fi
-
-    exit $ARG
-}
 
 export PROJECT_ROOT_DIR=$(git rev-parse --show-toplevel)
 export SCRIPTS_DIR=${PROJECT_ROOT_DIR}/infra/scripts
@@ -39,14 +20,14 @@ wait_for_docker_image gcr.io/kf-feast/feast-core:"${FEAST_VERSION}"
 wait_for_docker_image gcr.io/kf-feast/feast-serving:"${FEAST_VERSION}"
 wait_for_docker_image gcr.io/kf-feast/feast-jupyter:"${FEAST_VERSION}"
 
-# Clean up on exit
-trap clean_up EXIT
-
+# Print gcloud information
 gcloud auth list
 gcloud config list
 
 # Delete BigQuery dataset if it exists
-bq rm -r --project_id ${GCLOUD_PROJECT} --force "${BIGQUERY_DATASET_NAME}"  || true
+if [ "${ALLOW_DELETE_BQ_DATASET}" == "true" ]; then
+  bq rm -r --project_id ${GCLOUD_PROJECT} --force "${BIGQUERY_DATASET_NAME}"  || true
+fi
 
 # Create BigQuery dataset from scratch
 bq --location=US --project_id=${GCLOUD_PROJECT} mk \
@@ -128,6 +109,4 @@ FEAST_CORE_CONFIG=${CORE_CONFIG_FILE} \
 FEAST_HISTORICAL_SERVING_ENABLED=true \
 GCP_SERVICE_ACCOUNT=${GOOGLE_APPLICATION_CREDENTIALS} \
 FEAST_VERSION=${FEAST_VERSION} \
-docker-compose up -d
-
-docker-compose logs -f -t
+docker-compose up
