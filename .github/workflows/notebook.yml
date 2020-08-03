@@ -7,11 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        notebook: [basic, churn_prediction, statistics]
+        notebook: [basic]
     env:
       TEMP_BUCKET: feast-test-notebook-artifacts
-      FEAST_VERSION: ${GITHUB_SHA}
-      TEST_RUN_ID: action_${GITHUB_SHA}_${{ matrix.component }}
+      FEAST_VERSION: 0.6.2
       ALLOW_DELETE_BQ_DATASET: true
       NOTEBOOK: ${{ matrix.notebook }}
     steps:
@@ -23,7 +22,9 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}
       - name: Set up Feast with Docker Compose
-        run: ./infra/scripts/set-up-docker-compose-infra.sh
+        run: |
+          TEST_RUN_ID=action_${GITHUB_SHA}_${{ matrix.notebook }} \
+          ./infra/scripts/setup-docker-compose-infra.sh
       - name: Wait for Docker Compose to come online
         run: |
           source infra/scripts/setup-common-functions.sh
