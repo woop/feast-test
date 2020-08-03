@@ -30,6 +30,8 @@ jobs:
           source infra/scripts/setup-common-functions.sh
           wait_for_docker_compose_running
       - name: Test notebook
-        run: pytest -s --verbose --color=yes tests/e2e/notebook/${{ matrix.notebook }}.py
+        run: |
+          docker-compose logs -f -t &
+          pytest -s --verbose --color=yes tests/e2e/notebook/${{ matrix.notebook }}.py
       - name: Tear down Docker Compose
         run: ./infra/scripts/tear-down-docker-compose-infra.sh
