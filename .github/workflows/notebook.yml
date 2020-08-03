@@ -29,9 +29,15 @@ jobs:
         run: |
           source infra/scripts/setup-common-functions.sh
           wait_for_docker_compose_running
+      - name: Install dependencies
+        run: make install-python-ci-dependencies
+      - name: Compile protos
+        run: make compile-protos-python
       - name: Test notebook
         run: |
+          cd infra/docker-compose/
           docker-compose logs -f -t &
-          pytest -s --verbose --color=yes tests/e2e/notebook/${{ matrix.notebook }}.py
+          cd ../..
+          pytest -s --verbose --color=yes tests/e2e/notebook/basic.py
       - name: Tear down Docker Compose
         run: ./infra/scripts/tear-down-docker-compose-infra.sh
