@@ -43,10 +43,10 @@ if helm repo index --url "$repo_url" --merge "$index_dir/index.yaml" "$sync_dir"
     # Move updated index.yaml to sync folder so we don't push the old one again
     mv -f "$sync_dir/index.yaml" "$index_dir/index.yaml"
 
-    gsutil -m rsync "$sync_dir" "$bucket"
+    #gsutil -m rsync "$sync_dir" "$bucket"
 
     # Make sure index.yaml is synced last
-    gsutil -h "Cache-Control:no-cache,max-age=0" cp "$index_dir/index.yaml" "$bucket"
+    #gsutil -h "Cache-Control:no-cache,max-age=0" cp "$index_dir/index.yaml" "$bucket"
 else
     log_error "Exiting because unable to update index. Not safe to push update."
     exit 1

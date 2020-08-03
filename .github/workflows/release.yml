@@ -1,0 +1,41 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+    branches:
+      # Push events on master branch
+      - master
+jobs:
+  get_version:
+    runs-on:  ubuntu-latest
+    outputs:
+      release_version: ${{ steps.get_release_version.outputs.release_version }}
+    steps:
+    - name: Get release version
+      id: get_release_version
+      run: echo ::set-output name=release_version::${GITHUB_REF#refs/*/}
+    - name: Check output
+      env:
+        RELEASE_VERSION: ${{ steps.vars.outputs.release_version }}
+    - run: |
+        echo $RELEASE_VERSION
+        echo ${{ steps.vars.outputs.release_version }}
+
+  publish-helm-charts:
+    runs-on:  ubuntu-latest
+    needs: get_version
+    steps:
+      - uses: actions/checkout@v2
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '290.0.1'
+          export_default_credentials: true
+      - run: gcloud auth configure-docker --quiet
+      - name: ensure versions are valid
+        run: make lint-versions
+      - name: install helm
+        run: ./infra/scripts/install-helm.sh
+      - name: publish helm charts
+        run: ./infra/scripts/sync-helm-charts.sh
