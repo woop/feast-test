@@ -9,7 +9,7 @@ jobs:
       matrix:
         notebook: [basic]
     env:
-      TEMP_BUCKET: feast-test-notebook-artifacts
+      TEMP_BUCKET: gs://feast-test-notebook-artifacts
       FEAST_VERSION: 0.6.2
       ALLOW_DELETE_BQ_DATASET: true
       NOTEBOOK: ${{ matrix.notebook }}
