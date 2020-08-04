@@ -1,6 +1,8 @@
 from .notebook import run_notebook, get_notebook_from_gcs
+import pytest
 
 
+@pytest.mark.usefixtures("output_bucket_name", "test_run_id")
 def test_basic(output_bucket_name: str, test_run_id: str):
     notebook_path = '/home/jovyan/basic/basic.ipynb'
     notebook_blob = f"%s/basic.ipynb" % test_run_id
