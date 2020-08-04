@@ -44,6 +44,6 @@ jobs:
           --test_run_id=${TEST_RUN_ID} \
           --output_bucket_name=${OUTPUT_BUCKET_NAME}
       - name: Print Docker logs
-        run: docker-compose logs -t
+        run: cd infra/docker-compose &&  docker-compose logs -t
       - name: Tear down Docker Compose
         run: ./infra/scripts/tear-down-docker-compose-infra.sh
