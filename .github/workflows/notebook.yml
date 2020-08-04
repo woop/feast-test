@@ -34,7 +34,7 @@ jobs:
           source infra/scripts/setup-common-functions.sh
           wait_for_docker_compose_running
       - name: Install dependencies
-        run: pip install pytest docker
+        run: pip install pytest docker google-cloud-storage
       - name: Test notebook
         run: |
           cd infra/docker-compose/
