@@ -37,7 +37,7 @@ jobs:
           cd infra/docker-compose/
           docker-compose logs -f -t &
           cd ../..
-          pytest --verbose --color=yes tests/notebook/basic.py --test_run_id=${TEST_RUN_ID} --output_bucket_name=${OUTPUT_BUCKET_NAME}
+          python -m pytest --verbose --color=yes tests/notebook/basic.py --test_run_id=${TEST_RUN_ID} --output_bucket_name=${OUTPUT_BUCKET_NAME}
       - name: Get output notebook URL
         run: echo "https://nbviewer.jupyter.org/url/storage.googleapis.com/${OUTPUT_BUCKET_NAME}/${TEST_RUN_ID}/${NOTEBOOK}.ipynb?clear_cache=True"
       - name: Tear down Docker Compose
