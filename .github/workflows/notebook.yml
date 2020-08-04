@@ -41,7 +41,8 @@ jobs:
         run: |
           python -m pytest --verbose --color=yes \
           tests/notebook/${{ matrix.notebook }}.py \
-          --test_run_id=${TEST_RUN_ID} --output_bucket_name=${OUTPUT_BUCKET_NAME}
+          --test_run_id=${TEST_RUN_ID} \
+          --output_bucket_name=${OUTPUT_BUCKET_NAME}
       - name: Print Docker logs
         run: docker-compose logs -t
       - name: Tear down Docker Compose
