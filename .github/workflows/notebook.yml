@@ -38,7 +38,8 @@ jobs:
       - name: Get output notebook URL
         run: echo "https://nbviewer.jupyter.org/url/storage.googleapis.com/${OUTPUT_BUCKET_NAME}/${TEST_RUN_ID}/${{ matrix.notebook }}.ipynb?clear_cache=True"
       - name: Test notebook
-        run: python -m pytest --verbose --color=yes \
+        run: |
+          python -m pytest --verbose --color=yes \
           tests/notebook/${{ matrix.notebook }}.py \
           --test_run_id=${TEST_RUN_ID} --output_bucket_name=${OUTPUT_BUCKET_NAME}
       - name: Print Docker logs
