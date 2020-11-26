@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "woop",
+      "name": "Willem Pienaar",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6728866?v=4",
+      "profile": "https://github.com/woop",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "feast-test",
+  "projectOwner": "woop",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
