@@ -81,7 +81,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<table>
+<table  border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center"><a href="https://github.com/woop"><img src="https://avatars0.githubusercontent.com/u/6728866?v=4" style="border-radius: 25px" width="50px;" alt=""/></a></td>
     <td align="center"><a href="https://github.com/Xin1"><img src="https://avatars2.githubusercontent.com/u/11849706?v=4" style="border-radius: 25px" width="50px;" alt=""/></a></td>
