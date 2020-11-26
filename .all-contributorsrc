@@ -13,6 +13,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "danog",
+      "name": "Daniil Gentili",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/7339644?v=4",
+      "profile": "https://daniil.it",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
