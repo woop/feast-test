@@ -1,6 +1,6 @@
 <p align="center">
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
     <a href="https://feast.dev/">
       <img src="docs/assets/feast_logo.png" width="550">
@@ -84,6 +84,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/woop"><img src="https://avatars0.githubusercontent.com/u/6728866?v=4" width="100px;" alt=""/><br /><sub><b>Willem Pienaar</b></sub></a><br /><a href="https://github.com/woop/feast-test/commits?author=woop" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://daniil.it"><img src="https://avatars1.githubusercontent.com/u/7339644?v=4" width="100px;" alt=""/><br /><sub><b>Daniil Gentili</b></sub></a><br /><a href="https://github.com/woop/feast-test/commits?author=danog" title="Documentation">📖</a></td>
   </tr>
 </table>
 
