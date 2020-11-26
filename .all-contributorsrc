@@ -3,7 +3,7 @@
     "README.md"
   ],
   "imageSize": 50,
-  "contributorTemplate": "<a href=\"<%= contributor.profile %>\"><img src=\"<%= contributor.avatar_url %>\" style="border-radius: 25px" width=\"<%= options.imageSize %>px;\" alt=\"\"/></a>",
+  "contributorTemplate": "<a href=\"<%= contributor.profile %>\"><img src=\"<%= contributor.avatar_url %>\" style=\"border-radius: 25px\" width=\"<%= options.imageSize %>px;\" alt=\"\"/></a>",
   "commit": false,
   "contributors": [
     {
