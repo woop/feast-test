@@ -1,0 +1,4 @@
+python:
+  install:
+      - path: sdk/python/
+        method: setup.py
