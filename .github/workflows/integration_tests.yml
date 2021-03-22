@@ -25,5 +25,5 @@ jobs:
         run: make compile-protos-python
       - name: Install python
         run: make install-python
-      - name: Test python
-        run: FEAST_TELEMETRY=False pytest --verbose --color=yes sdk/python/tests --integration
+      - name: Use gcloud CLI 2
+        run: gcloud info
