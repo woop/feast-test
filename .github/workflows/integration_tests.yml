@@ -27,3 +27,5 @@ jobs:
         run: make install-python
       - name: Use gcloud CLI 2
         run: gcloud info
+      - name: Test gsutil
+        run: gsutil ls
